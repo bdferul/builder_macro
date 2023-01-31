@@ -37,6 +37,13 @@ pub fn builder(input: TokenStream) -> TokenStream {
                     }
                 }
             },
+            "bool" => quote! {
+                pub fn #ident(self) -> Self {
+                    Self {
+                        #ident: true, ..self
+                    }
+                }
+            },
             _ => quote! {
                 pub fn #ident(self, #ident: #f_type) -> Self {
                     Self {
