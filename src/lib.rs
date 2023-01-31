@@ -41,8 +41,6 @@ pub fn builder(input: TokenStream) -> TokenStream {
         builders.extend(builder);
     }
 
-    println!("{name}");
-
     let expanded = quote! {
         impl #name {
             #builders
