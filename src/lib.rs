@@ -20,7 +20,7 @@ pub fn builder(input: TokenStream) -> TokenStream {
 
         let builder = if quote!(#f_type).to_string() == "String" {
             quote! {
-                fn #ident(self, #ident: &str) -> Self {
+                pub fn #ident(self, #ident: &str) -> Self {
                     Self {
                         #[allow(clippy::needless_update)]
                         #ident: #ident.to_string(), ..self
@@ -29,7 +29,7 @@ pub fn builder(input: TokenStream) -> TokenStream {
             }
         } else {
             quote! {
-                fn #ident(self, #ident: #f_type) -> Self {
+                pub fn #ident(self, #ident: #f_type) -> Self {
                     Self {
                         #[allow(clippy::needless_update)]
                         #ident, ..self
