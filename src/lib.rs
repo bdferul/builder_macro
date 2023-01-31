@@ -29,7 +29,7 @@ pub fn builder(input: TokenStream) -> TokenStream {
                     }
                 }
             },
-            "Vec<String>" => quote! {
+            "Vec < String >" => quote! {
                 pub fn #ident(self, #ident: &[&str]) -> Self {
                     Self {
                         #[allow(clippy::needless_update)]
