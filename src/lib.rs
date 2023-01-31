@@ -18,24 +18,33 @@ pub fn builder(input: TokenStream) -> TokenStream {
         let ident = field.ident.unwrap();
         let f_type = field.ty;
 
-        let builder = if quote!(#f_type).to_string() == "String" {
-            quote! {
+        let type_str = quote!(#f_type).to_string();
+
+        let builder = match type_str.as_str() {
+            "String" => quote! {
                 pub fn #ident(self, #ident: &str) -> Self {
                     Self {
                         #[allow(clippy::needless_update)]
                         #ident: #ident.to_string(), ..self
                     }
                 }
-            }
-        } else {
-            quote! {
+            },
+            "Vec<String>" => quote! {
+                pub fn #ident(self, #ident: &[&str]) -> Self {
+                    Self {
+                        #[allow(clippy::needless_update)]
+                        #ident: #ident.iter().map(|s| s.to_string()).collect(), ..self
+                    }
+                }
+            },
+            _ => quote! {
                 pub fn #ident(self, #ident: #f_type) -> Self {
                     Self {
                         #[allow(clippy::needless_update)]
                         #ident, ..self
                     }
                 }
-            }
+            },
         };
 
         builders.extend(builder);
